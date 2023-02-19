@@ -1,6 +1,5 @@
-import { Grid, TextField, Button } from '@mui/material';
+import { Grid, Button } from '@mui/material';
 import { useTasks } from '../hooks/useTasks';
-import { useRef } from 'react';
 import { TitleInput } from './TitleInput';
 
 export const CreateTask = () => {

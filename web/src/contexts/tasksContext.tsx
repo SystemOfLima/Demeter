@@ -5,24 +5,23 @@ import { apiMutations } from '../services/queries/apiMethods';
 export const TaskContext = createContext<taskContextValues>(null);
 
 export const TaskProvider = ({ children }: React.PropsWithChildren) => {
-  const [allTasks, setAllTasks] = useState<taskType[]>([]);
-  // const [tasks, setTasks] = useState<taskType[]>([]);
-  // const [tasksCompleted, setTasksCompleted] = useState<taskType[]>([]);
+  const [tasks, setTasks] = useState<taskType[]>([]);
+  const [tasksCompleted, setTasksCompleted] = useState<taskType[]>([]);
 
   const taskTitleInput = useRef<{ value: string }>();
 
   const getTasks = async () => {
     const response = await apiMutations
-      .findAllTasks()
+      .findAllOpenTasks()
       .catch((err) => console.log(err));
-    setAllTasks(response);
+    setTasks(response);
   };
 
   const getCompletedTasks = async () => {
-    // const response = await apiMutations
-    //   .findAllCompletedTasks()
-    //   .catch((err) => console.log(err));
-    // setTasksCompleted(response);
+    const response = await apiMutations
+      .findAllCompletedTasks()
+      .catch((err) => console.log(err));
+    setTasksCompleted(response);
   };
 
   const createTask = async () => {
@@ -39,7 +38,7 @@ export const TaskProvider = ({ children }: React.PropsWithChildren) => {
     await apiMutations.completeTask(id).catch((err) => console.log(err));
 
     getTasks();
-    // getCompletedTasks();
+    getCompletedTasks();
   };
 
   const updateTaskTittle = async (id: string) => {
@@ -56,16 +55,13 @@ export const TaskProvider = ({ children }: React.PropsWithChildren) => {
     await apiMutations.deleteTask(id).catch((err) => console.log(err));
 
     getTasks();
-    // getCompletedTasks();
+    getCompletedTasks();
   };
 
   useEffect(() => {
     getTasks();
-    // getCompletedTasks();
+    getCompletedTasks();
   }, []);
-
-  const tasks = allTasks.filter((task) => !task.completed);
-  const tasksCompleted = allTasks.filter((task) => task.completed);
 
   const values: taskContextValues = {
     getTasks,
