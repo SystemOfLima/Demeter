@@ -9,6 +9,7 @@ export const TitleInput = () => {
       required
       variant="outlined"
       inputRef={taskTitleInput}
+      inputProps={{ style: { padding: '7px' } }}
       className="bg-white rounded-lg"
     />
   );
