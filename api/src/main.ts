@@ -1,9 +1,15 @@
 import 'dotenv/config';
-import express from 'express';
+import express, {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import { routerV1 } from './router';
+import mongoose from 'mongoose';
 
 class App {
   private express;
@@ -26,6 +32,7 @@ class App {
     this.express.use(cors());
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
+    mongoose.connect(`${process.env.MONGO_CONNECTION}`);
   }
 
   private Router() {

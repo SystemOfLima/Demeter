@@ -1,12 +1,17 @@
 import { Grid, Button } from '@mui/material';
+import { taskType } from '../types/tasks';
+import { useTasks } from '../hooks/useTasks';
+import { useState } from 'react';
+import { TitleInput } from './TitleInput';
+import { EditBtns } from './EditBtns';
 
-type ItemProps = {
-  title: string;
-  completed?: boolean;
-  id: string;
-};
+export const Item = ({ task }: { task: taskType }) => {
+  const { deleteTask } = useTasks();
 
-export const Item = ({ title, completed = false }: ItemProps) => {
+  const [edit, setEdit] = useState(false);
+
+  const handleToggleEdit = () => setEdit((state) => !state);
+
   return (
     <Grid
       container
@@ -18,17 +23,22 @@ export const Item = ({ title, completed = false }: ItemProps) => {
       paddingX={2}
       alignItems="center"
       justifyContent="space-between"
+      sx={
+        task.completed
+          ? {
+              opacity: 0.4,
+              '& h3': { textDecoration: 'line-through' },
+            }
+          : {}
+      }
     >
-      <h3>{title}</h3>
+      {edit ? <TitleInput /> : <h3>{task.title}</h3>}
 
       <Grid item>
-        {completed || (
-          <>
-            <Button variant="text">concluir</Button>
-            <Button variant="text">editar</Button>
-          </>
-        )}
-        <Button variant="text">excluir</Button>
+        <EditBtns task={task} edit={edit} handleToggleEdit={handleToggleEdit} />
+        <Button variant="text" onClick={() => deleteTask(task._id)}>
+          excluir
+        </Button>
       </Grid>
     </Grid>
   );

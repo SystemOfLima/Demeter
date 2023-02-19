@@ -21,7 +21,9 @@ export const DashboardTasks = () => {
       </h1>
 
       <CreateTask />
+
       <ListTasks />
+
       <CompletedTasks />
     </Grid>
   );

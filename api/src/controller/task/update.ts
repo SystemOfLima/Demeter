@@ -3,16 +3,18 @@ import mongoose from 'mongoose';
 import { taskModel } from '../../database/model/task';
 
 export const Update = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { title } = req.body;
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
 
-  if (!title) throw new Error('Undefined title');
+    if (!title) throw new Error('Undefined title');
 
-  await mongoose.connect(`${process.env.MONGO_CONNECTION}`);
+    await taskModel.findByIdAndUpdate(id, {
+      $set: { title },
+    });
 
-  await taskModel.findByIdAndUpdate(id, {
-    $set: { title },
-  });
-
-  return res.json();
+    return res.json();
+  } catch (err: any) {
+    return res.status(400).send(err.toString());
+  }
 };

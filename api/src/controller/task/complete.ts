@@ -3,17 +3,21 @@ import mongoose from 'mongoose';
 import { taskModel } from '../../database/model/task';
 
 export const Complete = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  await mongoose.connect(`${process.env.MONGO_CONNECTION}`);
+    const task = await taskModel.findById(id);
 
-  await taskModel.findByIdAndUpdate(
-    id,
-    {
-      $addToSet: { completed: new Date() },
-    },
-    { upsert: true },
-  );
+    if (!task) throw new Error('Task not found');
 
-  return res.send();
+    await taskModel.findByIdAndUpdate(
+      id,
+      { completed: !task.completed },
+      { upsert: true },
+    );
+
+    return res.send();
+  } catch (err: any) {
+    return res.status(400).send(err.toString());
+  }
 };

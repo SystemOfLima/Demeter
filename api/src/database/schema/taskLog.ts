@@ -1,11 +1,8 @@
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export const taskSchema = new Schema(
   {
-    title: {
-      type: String,
-      require: true,
-    },
+    taskId: mongoose.Types.ObjectId,
     completed: {
       type: Boolean,
       default: false,

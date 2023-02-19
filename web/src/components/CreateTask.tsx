@@ -1,6 +1,11 @@
-import { Grid, TextField, Button } from "@mui/material";
+import { Grid, TextField, Button } from '@mui/material';
+import { useTasks } from '../hooks/useTasks';
+import { useRef } from 'react';
+import { TitleInput } from './TitleInput';
 
 export const CreateTask = () => {
+  const { createTask } = useTasks();
+
   return (
     <Grid
       container
@@ -16,9 +21,11 @@ export const CreateTask = () => {
         Create a new task
       </h1>
 
-      <TextField required variant="outlined" className="bg-white rounded-lg" />
+      <TitleInput />
 
-      <Button variant="contained">Salvar</Button>
+      <Button variant="contained" onClick={() => createTask()}>
+        Salvar
+      </Button>
     </Grid>
   );
 };

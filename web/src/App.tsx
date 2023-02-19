@@ -1,10 +1,13 @@
 import { Container } from '@mui/material';
 import { DashboardTasks } from './components/DashboardTasks';
+import { TaskProvider } from './contexts/tasksContext';
 
 export const App = () => {
   return (
     <Container maxWidth="lg">
-      <DashboardTasks />
+      <TaskProvider>
+        <DashboardTasks />
+      </TaskProvider>
     </Container>
   );
 };

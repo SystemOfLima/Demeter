@@ -1,16 +1,9 @@
 import { Grid } from '@mui/material';
 import { Item } from './Item';
-import { useEffect, useState } from 'react';
-import { axios } from '../utils/axios';
+import { useTasks } from '../hooks/useTasks';
 
 export const ListTasks = () => {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    axios.get('/').then((response) => {
-      setTasks(response.data);
-    });
-  }, []);
+  const { tasks } = useTasks();
 
   return (
     <Grid
@@ -24,8 +17,8 @@ export const ListTasks = () => {
     >
       <h1 className="text-white text-lg tracking-wide font-bold">Tasks</h1>
 
-      {tasks.map(({ title, _id }) => (
-        <Item title={title} key={`${Math.random()}`} id={_id} />
+      {tasks.map((task, i) => (
+        <Item task={task} key={`list/tasks/${task.title}-${i}`} />
       ))}
     </Grid>
   );

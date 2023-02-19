@@ -3,13 +3,15 @@ import mongoose from 'mongoose';
 import { taskModel } from '../../database/model/task';
 
 export const Delete = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  if (!id) throw new Error('Undefined ID');
+    if (!id) throw new Error('Undefined ID');
 
-  await mongoose.connect(`${process.env.MONGO_CONNECTION}`);
+    await taskModel.findByIdAndDelete(id);
 
-  await taskModel.findByIdAndDelete(id);
-
-  return res.send();
+    return res.send();
+  } catch (err: any) {
+    return res.status(400).send(err.toString());
+  }
 };
