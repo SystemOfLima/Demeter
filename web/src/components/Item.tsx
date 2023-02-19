@@ -36,9 +36,6 @@ export const Item = ({ task }: { task: taskType }) => {
 
       <Grid item>
         <EditBtns task={task} edit={edit} handleToggleEdit={handleToggleEdit} />
-        <Button variant="text" onClick={() => deleteTask(task._id)}>
-          excluir
-        </Button>
       </Grid>
     </Grid>
   );

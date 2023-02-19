@@ -32,7 +32,7 @@ class App {
     this.express.use(cors());
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
-    mongoose.connect(`${process.env.MONGO_CONNECTION}`);
+    mongoose.connect(`${process.env.MONGO_CONNECTION}`).then(() => console.log("ok"));
   }
 
   private Router() {
